@@ -1,0 +1,36 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="weather"
+            type="com.ivan.weatherapp.entity.WeatherBinding" />
+
+    </data>
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.MainFragment"
+        android:visibility="@{weather == null ? View.GONE : View.VISIBLE}"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{weather.description}"
+            android:textSize="28sp"
+            android:textStyle = "bold|normal" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/illustration"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="36sp"
+            android:text="@{String.valueOf(weather.temperature) + `℃`}"/>
+    </LinearLayout>
+</layout>

@@ -15,4 +15,13 @@ class WeatherRepositoryImpl @Inject constructor(
         val dto = weatherApi.getWeatherByCityName(placeName, BuildConfig.APIKEY)
         return weatherConverter.toEntity(dto)
     }
+
+    override suspend fun getWeatherByLocation(lat: Double, lon: Double): Weather {
+        val dto = weatherApi.getCurrentWeatherByGeoposition(
+            latitude = lat,
+            longitude = lon,
+            BuildConfig.APIKEY
+        )
+        return weatherConverter.toEntity(dto)
+    }
 }

@@ -1,14 +1,17 @@
 package com.ivan.weatherapp.ui
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.ivan.weatherapp.base.BaseFragment
 import com.ivan.weatherapp.databinding.FragmentMainBinding
@@ -22,37 +25,62 @@ import kotlinx.coroutines.flow.collect
 class MainFragment : BaseFragment() {
 
     private lateinit var weatherViewModel: WeatherViewModel
-    private lateinit var binding: FragmentMainBinding
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
+    @SuppressLint("MissingPermission")
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                val fusedLocationProvider = LocationServices.getFusedLocationProviderClient(context)
+                val lastKnownLocation = fusedLocationProvider.lastLocation
+                lastKnownLocation.addOnSuccessListener {
+                    weatherViewModel.fetchWeatherByLocation(it.latitude, it.longitude)
+                }
+            } else {
+                Snackbar.make(binding.root, NO_PERMISSION, Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
+    @SuppressLint("MissingPermission")
     override fun setupListeners() {
         with(binding.searchView) {
             editText.setOnFocusChangeListener { _, hasFocus ->
+                val inputMethodManager =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
                 if (hasFocus) {
-                    // Open keyboard
-                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
+                    inputMethodManager.showSoftInput(
                         editText,
                         InputMethodManager.SHOW_FORCED
                     )
                 } else {
-                    // Close keyboard
-                    (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    inputMethodManager.hideSoftInputFromWindow(
                         editText.windowToken,
                         0
                     )
                 }
             }
+
             searchButton.setOnClickListener {
                 weatherViewModel.fetchWeatherByCity(editText.text.toString())
                 editText.clearFocus()
+            }
+
+            searchByLocationButton.setOnClickListener {
+                activity?.let {
+                    requestPermission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                }
             }
         }
     }
@@ -84,7 +112,13 @@ class MainFragment : BaseFragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 const val ERROR_MSG = "Произошла ошибка"
 const val LOADING_MSG = "Началась загрузка"
+const val NO_PERMISSION = "Нет разрешения на установку локации"

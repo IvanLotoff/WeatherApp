@@ -3,8 +3,8 @@ package com.ivan.weatherapp.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivan.domain.model.Weather
-import com.ivan.domain.usecase.WeatherUseCase
+import com.ivan.domain.usecase.WeatherByCityUseCase
+import com.ivan.domain.usecase.WeatherByLocationUseCase
 import com.ivan.weatherapp.converter.WeatherConverter
 import com.ivan.weatherapp.entity.WeatherBinding
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val weatherUseCase: WeatherUseCase,
+    private val weatherByCityUseCase: WeatherByCityUseCase,
+    private val weatherByLocationUseCase: WeatherByLocationUseCase,
     private val weatherConverter: WeatherConverter
 ): ViewModel() {
 
@@ -30,7 +31,23 @@ class WeatherViewModel @Inject constructor(
             _uiStateFlow.value = WeatherUIState.Loading
             try {
                 val resp = withContext(Dispatchers.IO) {
-                    weatherUseCase(city)
+                    weatherByCityUseCase(city)
+                }
+                val weatherBinding = weatherConverter.entityToBindingEntity(resp)
+                _uiStateFlow.value = WeatherUIState.Success(weatherBinding)
+            } catch (ex: Throwable){
+                _uiStateFlow.value = WeatherUIState.Failure(ex)
+            }
+        }
+    }
+
+    fun fetchWeatherByLocation(lat: Double, lon: Double) {
+        Log.d("Tagging", "fetchWeatherByLocation: ")
+        viewModelScope.launch {
+            _uiStateFlow.value = WeatherUIState.Loading
+            try {
+                val resp = withContext(Dispatchers.IO) {
+                    weatherByLocationUseCase(lat = lat, lon = lon)
                 }
                 val weatherBinding = weatherConverter.entityToBindingEntity(resp)
                 _uiStateFlow.value = WeatherUIState.Success(weatherBinding)

@@ -29,7 +29,6 @@ class HourlyWeatherViewModel @Inject constructor(
                 val resp = weatherForecastByHoursUseCase.get(lat = lat, lon = lon)
                 val hourlyWeatherBinding = hourlyWeatherConverter.entityToBindingEntity(resp)
                 _uiStateFlow.value = HourlyWeatherUIState.Success(hourlyWeatherBinding)
-                Log.d("Tagging", "fetchHourlyWeatherByLocation: " + hourlyWeatherBinding)
             } catch (ex: Throwable){
                 _uiStateFlow.value = HourlyWeatherUIState.Failure(ex)
             }

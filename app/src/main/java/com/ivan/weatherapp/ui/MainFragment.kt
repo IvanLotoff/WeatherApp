@@ -102,7 +102,6 @@ class MainFragment : BaseFragment() {
     override fun subscribeToViewModels() {
         lifecycleScope.launchWhenStarted {
             weatherViewModel.uiStateFlow.collect {
-                Log.d("Tagging", "old collect: ")
                 when (it) {
                     is WeatherUIState.NewState -> {
                         // show new state

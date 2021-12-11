@@ -1,0 +1,44 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="weather"
+            type="com.ivan.weatherapp.entity.HourlyWeatherBinding" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{weather.description}"
+            android:textSize="28sp"
+            android:textStyle="bold|normal"
+            app:layout_constraintStart_toEndOf="@+id/weather_list_item_illustration"
+            app:layout_constraintTop_toBottomOf="@+id/temp" />
+
+        <ImageView
+            android:id="@+id/weather_list_item_illustration"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@{String.valueOf(weather.temp) + `℃`}"
+            android:textSize="36sp"
+            app:layout_constraintStart_toEndOf="@+id/weather_list_item_illustration"
+            app:layout_constraintTop_toTopOf="@+id/weather_list_item_illustration" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

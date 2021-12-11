@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivan.domain.usecase.WeatherByCityUseCase
 import com.ivan.domain.usecase.WeatherByLocationUseCase
+import com.ivan.domain.usecase.WeatherForecastByHoursUseCase
 import com.ivan.weatherapp.converter.WeatherConverter
 import com.ivan.weatherapp.entity.WeatherBinding
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
@@ -7,5 +8,12 @@
 
         <include layout="@layout/weather_view" android:id="@+id/weather_view" />
         <include layout="@layout/search_view" android:id="@+id/search_view"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/recycle_view"/>
     </LinearLayout>
 </layout>

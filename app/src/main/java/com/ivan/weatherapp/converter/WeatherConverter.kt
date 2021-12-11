@@ -19,24 +19,24 @@ class WeatherConverter @Inject constructor() {
             wind = entity.wind
         )
     }
+}
 
-    private fun mapToDrawable(type: WeatherType) : Int? {
-        if(type == WeatherType.CLEAR)
-            return R.drawable.clear
-        if(type == WeatherType.RAIN)
-            return R.drawable.rain
-        if(type == WeatherType.CLOUDS)
-            return R.drawable.clouds
-        if(type == WeatherType.DRIZZLE)
-            return R.drawable.drizzle
-        if(type == WeatherType.FOG)
-            return R.drawable.fog
-        if(type == WeatherType.LIGHT_CLOUDS)
-            return R.drawable.lightclouds
-        if(type == WeatherType.OVERCAST_CLOUDS)
-            return R.drawable.overcastclouds
-        if(type == WeatherType.THUNDERSTORM)
-            return R.drawable.storm
-        return null;
-    }
+fun mapToDrawable(type: WeatherType) : Int? {
+    if(type == WeatherType.CLEAR)
+        return R.drawable.clear
+    if(type == WeatherType.RAIN)
+        return R.drawable.rain
+    if(type == WeatherType.CLOUDS)
+        return R.drawable.clouds
+    if(type == WeatherType.DRIZZLE)
+        return R.drawable.drizzle
+    if(type == WeatherType.FOG)
+        return R.drawable.fog
+    if(type == WeatherType.LIGHT_CLOUDS)
+        return R.drawable.lightclouds
+    if(type == WeatherType.OVERCAST_CLOUDS)
+        return R.drawable.overcastclouds
+    if(type == WeatherType.THUNDERSTORM)
+        return R.drawable.storm
+    return null;
 }

@@ -1,5 +1,6 @@
 package com.ivan.data.api
 
+import com.ivan.data.dto.WeatherByHoursDto
 import com.ivan.data.dto.WeatherDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -20,4 +21,13 @@ interface WeatherApi {
         @Query("appid") apikey : String,
         @Query("units") units:String = "metric"
     ) : WeatherDto
+
+    @GET("onecall")
+    suspend fun getHourlyWeather(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("exclude") timeType : String,
+        @Query("appid") apikey : String,
+        @Query("units") units:String = "metric"
+    ) : WeatherByHoursDto
 }

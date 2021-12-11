@@ -1,6 +1,5 @@
 package com.ivan.weatherapp.converter
 
-import android.util.Log
 import com.ivan.domain.model.Weather
 import com.ivan.domain.model.WeatherType
 import com.ivan.weatherapp.R

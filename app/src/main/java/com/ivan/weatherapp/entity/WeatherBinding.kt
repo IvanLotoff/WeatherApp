@@ -1,7 +1,5 @@
 package com.ivan.weatherapp.entity
 
-import androidx.annotation.IdRes
-import com.ivan.domain.model.WeatherType
 import com.ivan.domain.model.Wind
 
 data class WeatherBinding(

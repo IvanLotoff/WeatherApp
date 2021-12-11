@@ -14,25 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNavController()
-//        val viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
-//        lifecycleScope.launch {
-//            viewModel.uiStateFlow.collect {
-//                when(it){
-//                    is WeatherUIState.NewState -> {
-//                        // show new state
-//                    }
-//                    is WeatherUIState.Loading -> {
-//                        // show loading
-//                    }
-//                    is WeatherUIState.Success -> {
-//                        // show success it.weather
-//                    }
-//                    is WeatherUIState.Failure ->{
-//                        // show fail
-//                    }
-//                }
-//            }
-        //}
     }
 
     private fun initNavController() {

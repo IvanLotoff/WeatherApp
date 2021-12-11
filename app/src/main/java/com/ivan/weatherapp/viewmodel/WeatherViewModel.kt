@@ -1,6 +1,5 @@
 package com.ivan.weatherapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivan.domain.usecase.WeatherByCityUseCase
@@ -30,9 +29,7 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch {
             _uiStateFlow.value = WeatherUIState.Loading
             try {
-                val resp = withContext(Dispatchers.IO) {
-                    weatherByCityUseCase(city)
-                }
+                val resp = weatherByCityUseCase.get(city)
                 val weatherBinding = weatherConverter.entityToBindingEntity(resp)
                 _uiStateFlow.value = WeatherUIState.Success(weatherBinding)
             } catch (ex: Throwable){
@@ -42,13 +39,10 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun fetchWeatherByLocation(lat: Double, lon: Double) {
-        Log.d("Tagging", "fetchWeatherByLocation: ")
         viewModelScope.launch {
             _uiStateFlow.value = WeatherUIState.Loading
             try {
-                val resp = withContext(Dispatchers.IO) {
-                    weatherByLocationUseCase(lat = lat, lon = lon)
-                }
+                val resp = weatherByLocationUseCase.get(lat = lat, lon = lon)
                 val weatherBinding = weatherConverter.entityToBindingEntity(resp)
                 _uiStateFlow.value = WeatherUIState.Success(weatherBinding)
             } catch (ex: Throwable){

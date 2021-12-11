@@ -1,5 +1,6 @@
 package com.ivan.weatherapp.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,11 @@ import javax.inject.Inject
 
 class HourlyWeatherAdapter @Inject constructor(): RecyclerView.Adapter<HourlyWeatherViewHolder>() {
     var items: List<HourlyWeatherBinding>? = null
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyWeatherViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
